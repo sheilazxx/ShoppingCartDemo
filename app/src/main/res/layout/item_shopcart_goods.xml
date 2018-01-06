@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="5dp">
+
+
+    <ImageView
+
+
+        android:id="@+id/iv_check_item_shopcart_goods"
+        android:layout_width="30dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="5dp"
+        android:layout_height="30dp"
+        android:layout_centerVertical="true"
+        android:padding="6dp"
+        android:src="@mipmap/cart_check_unselect" />
+
+
+    <ImageView
+        android:id="@+id/iv_thumb_item_shopcart_goods"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="15dp"
+        android:layout_toRightOf="@id/iv_check_item_shopcart_goods"
+        android:src="@mipmap/ic_launcher" />
+
+    <TextView
+        android:id="@+id/tv_name_item_shopcart_goods"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:layout_toRightOf="@id/iv_thumb_item_shopcart_goods"
+        android:textColor="#020202"
+        android:textSize="12sp"
+        tools:text="商品名称" />
+    <TextView
+        android:id="@+id/tv_attr_item_shopcart_goods"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_name_item_shopcart_goods"
+        android:layout_marginBottom="5dp"
+        android:layout_toRightOf="@id/iv_thumb_item_shopcart_goods"
+        android:textColor="#020202"
+        android:textSize="12sp"
+        tools:text="颜色：红" />
+    <TextView
+        android:id="@+id/tv_price_item_shopcart_goods"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_attr_item_shopcart_goods"
+        android:layout_marginBottom="5dp"
+        android:layout_toRightOf="@id/iv_thumb_item_shopcart_goods"
+        android:textColor="#dc0614"
+        android:textSize="12sp"
+        tools:text="¥69.00" />
+
+
+
+    <include
+        android:id="@+id/layout_goodsnum_add_reduce"
+        layout="@layout/item_goodsnum_add_reduce"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_price_item_shopcart_goods"
+        android:layout_toRightOf="@id/iv_thumb_item_shopcart_goods" />
+
+    <View
+
+        android:id="@+id/view_item_shopcart_shop"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/layout_goodsnum_add_reduce"
+        android:layout_marginTop="10dp"
+        android:alpha="0.5"
+
+
+        android:background="#bbbbbb"
+       />
+</RelativeLayout>

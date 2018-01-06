@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:id="@+id/layout_item_shopcart_bottom_balance"
+    android:layout_height="wrap_content"
+    android:background="@color/white">
+
+    <CheckBox
+        android:id="@+id/cb_all_check_item_shopcart_bottom_balance"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:drawableLeft="@drawable/shifoubuy"
+        android:button="@null"
+
+        android:drawablePadding="10dp"
+        android:text="全选"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <TextView
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="5dp"
+        android:text="合计:"
+        android:textColor="@color/text_title"
+        android:textSize="12sp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/tv_money_item_shopcart_bottom_balance"
+        app:layout_constraintRight_toLeftOf="@+id/tv_money_item_shopcart_bottom_balance"
+
+        />
+
+    <TextView
+        android:id="@+id/tv_money_item_shopcart_bottom_balance"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:layout_marginRight="10dp"
+        android:text="￥0.00"
+        android:textColor="@color/red"
+        android:textSize="12sp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/tv_banlance_item_shopcart_bottom_balance"
+        app:layout_constraintRight_toLeftOf="@+id/tv_banlance_item_shopcart_bottom_balance" />
+
+
+    <TextView
+
+        android:id="@+id/tv_banlance_item_shopcart_bottom_balance"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_shopcart_banlance"
+
+        android:paddingBottom="15dp"
+        android:paddingLeft="25dp"
+        android:paddingRight="25dp"
+        android:paddingTop="15dp"
+        android:text="结算"
+
+        android:textColor="@color/white"
+        android:textSize="12sp"
+        app:layout_constraintRight_toLeftOf="parent" />
+</android.support.constraint.ConstraintLayout>

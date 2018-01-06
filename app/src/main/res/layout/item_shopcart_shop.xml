@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+
+    >
+
+    <ImageView
+        android:id="@+id/iv_check_item_shopcart_shop"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginBottom="10dp"
+        android:padding="6dp"
+        android:src="@mipmap/cart_check_unselect"
+       android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+
+        android:id="@+id/iv_logo_item_shopcart_shop"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginLeft="10dp"
+
+        android:src="@mipmap/cart_store_current_icon"
+
+        app:layout_constraintBottom_toTopOf="@+id/view_item_shopcart_shop"
+        app:layout_constraintLeft_toRightOf="@+id/iv_check_item_shopcart_shop"
+
+        app:layout_constraintTop_toTopOf="parent"
+
+        />
+
+    <TextView
+        android:id="@+id/tv_shopname_item_shopcart_shop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:textColor="#020202"
+        android:textSize="12sp"
+
+        app:layout_constraintBottom_toTopOf="@+id/view_item_shopcart_shop"
+        app:layout_constraintLeft_toRightOf="@id/iv_logo_item_shopcart_shop"
+
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="店铺" />
+
+    <View
+
+        android:layout_marginTop="10dp"
+        android:id="@+id/view_item_shopcart_shop"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+
+
+
+        android:alpha="0.5"
+        android:background="#bbbbbb"
+
+        app:layout_constraintTop_toBottomOf="@+id/iv_check_item_shopcart_shop" />
+
+    <android.support.v7.widget.RecyclerView
+
+        android:layout_marginTop="10dp"
+        android:id="@+id/recyclerView_item_shopcart_shop"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/view_item_shopcart_shop"
+
+        app:layout_constraintTop_toBottomOf="@id/view_item_shopcart_shop"
+
+        />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        android:layout_below="@+id/recyclerView_item_shopcart_shop"
+        android:layout_marginTop="10dp"
+        android:alpha="0.5"
+        android:background="#bbbbbb"
+        app:layout_constraintTop_toBottomOf="@id/recyclerView_item_shopcart_shop" />
+
+</android.support.constraint.ConstraintLayout>
