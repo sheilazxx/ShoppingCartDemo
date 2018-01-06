@@ -71,8 +71,7 @@ public class ShopCartFragment extends BaseFragment {
     private String token = "";
 
     private ShopCartShopAdapter mAdapter;
-
-    private double price;
+    
 
     @Override
     protected int getLayoutId() {

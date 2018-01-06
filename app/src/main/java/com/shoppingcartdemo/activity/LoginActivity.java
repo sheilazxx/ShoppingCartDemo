@@ -81,9 +81,7 @@ public class LoginActivity extends BaseActivity {
             login(userName, passWord);
         }
 
-
     }
-
 
     private void login(String userName, String passWord) {
 
