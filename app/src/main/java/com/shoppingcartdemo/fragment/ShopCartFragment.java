@@ -71,8 +71,8 @@ public class ShopCartFragment extends BaseFragment {
     private String token = "";
 
     private ShopCartShopAdapter mAdapter;
-    
 
+    private double price;
     @Override
     protected int getLayoutId() {
         return R.layout.fragment_shopcart;
@@ -118,17 +118,19 @@ public class ShopCartFragment extends BaseFragment {
                     for (int i = 0; i < bean.getGoods().size(); i++) {
                         if (!bean.getGoods().get(i).isCheck()) {
                             bean.getGoods().get(i).setCheck(true);
-
-
+                            price += Double.parseDouble(bean.getGoods().get(i).getGoods_number()) * Double.parseDouble(bean.getGoods().get(i).getGoods_price());
+                            tvMoney.setText(String.valueOf(price));
                         }
                     }
                 } else {
-                    // 解决点击取消选择商品时，
-                    // 店铺全选按钮取消选择状态，不会不变成全不选
+
+                    // 店铺全选按钮取消选择状态
                     if (allChildSelect(position) == bean.getGoods().size()) {
                         for (int i = 0; i < bean.getGoods().size(); i++) {
                             if (bean.getGoods().get(i).isCheck()) {
                                 bean.getGoods().get(i).setCheck(false);
+                                price -= Double.parseDouble(bean.getGoods().get(i).getGoods_number()) * Double.parseDouble(bean.getGoods().get(i).getGoods_price());
+                                tvMoney.setText(String.valueOf(price));
                             }
                         }
                     }
@@ -138,7 +140,7 @@ public class ShopCartFragment extends BaseFragment {
                 mAdapter.notifyItemChanged(position);
 
 
-                calculate();
+//                calculate();
             }
         });
 
@@ -147,7 +149,6 @@ public class ShopCartFragment extends BaseFragment {
             @Override
             public void setOnChildCheckItemClick(int parent_position, int child_position) {
 
-//                ToastUtil.showShort(mContext,"选中");
                 List<ShopCartBean> list = mAdapter.getData();
 
                 ShopCartBean bean = list.get(parent_position);
@@ -158,9 +159,12 @@ public class ShopCartFragment extends BaseFragment {
                 boolean isSelected;
                 if (goodsBean.isCheck()) {
                     isSelected = false;
-
+                    price -= Double.parseDouble(goodsBean.getGoods_number()) * Double.parseDouble(goodsBean.getGoods_price());
+                    tvMoney.setText(String.valueOf(price));
                 } else {
                     isSelected = true;
+                    price += Double.parseDouble(goodsBean.getGoods_number()) * Double.parseDouble(goodsBean.getGoods_price());
+                    tvMoney.setText(String.valueOf(price));
                 }
 
                 //保存商品点击状态
@@ -180,7 +184,7 @@ public class ShopCartFragment extends BaseFragment {
                 }
                 mAdapter.notifyItemChanged(parent_position);
 
-                calculate();
+//                calculate();
             }
 
 
@@ -202,6 +206,8 @@ public class ShopCartFragment extends BaseFragment {
                             //选择店铺的商品
                             if (!shopCartBean.getGoods().get(j).isCheck()) {
                                 shopCartBean.getGoods().get(j).setCheck(true);
+                                price += Double.parseDouble(shopCartBean.getGoods().get(j).getGoods_number()) * Double.parseDouble(shopCartBean.getGoods().get(j).getGoods_price());
+                                tvMoney.setText(String.valueOf(price));
                             }
                         }
                     }
@@ -222,11 +228,13 @@ public class ShopCartFragment extends BaseFragment {
                                 }
                             }
                         }
+                        price = 0;
+                        tvMoney.setText(String.valueOf(price));
                     }
                 }
                 //更新
                 mAdapter.notifyDataSetChanged();
-                calculate();
+//                calculate();
             }
         });
 
@@ -234,15 +242,22 @@ public class ShopCartFragment extends BaseFragment {
             @Override
             public void setOnGoodsNumAddClick(int parent_position, int child_position) {
 
-                goodsNumChange(1, parent_position, child_position);
-
+                GoodsBean goodsBean =  goodsNumChange(1, parent_position, child_position);
+                if (goodsBean.isCheck()) {
+                    price += Double.parseDouble(goodsBean.getGoods_price());
+                    tvMoney.setText(String.valueOf(price));
+                }
             }
         });
         mAdapter.setOnGoodsNumreduceListener(new ShopCartShopAdapter.OnGoodsNumReduceListener() {
             @Override
             public void setOnGoodsNumReduceClick(int parent_position, int child_position) {
 
-                goodsNumChange(2, parent_position, child_position);
+                GoodsBean goodsBean =  goodsNumChange(2, parent_position, child_position);
+                if (goodsBean.isCheck()) {
+                    price -= Double.parseDouble(goodsBean.getGoods_price());
+                    tvMoney.setText(String.valueOf(price));
+                }
             }
         });
 
@@ -251,7 +266,7 @@ public class ShopCartFragment extends BaseFragment {
 
 
     //商品数量的增减
-    private void goodsNumChange(int type, int parent_position, int child_position) {
+    private GoodsBean goodsNumChange(int type, int parent_position, int child_position) {
 
         List<ShopCartBean> list = mAdapter.getData();
 
@@ -276,7 +291,8 @@ public class ShopCartFragment extends BaseFragment {
         goodsBean.setGoods_number(String.valueOf(goodsNum));
         mAdapter.notifyItemChanged(parent_position);
 
-        calculate();
+//        calculate();
+        return goodsBean;
     }
 
     //计算商品总价格
