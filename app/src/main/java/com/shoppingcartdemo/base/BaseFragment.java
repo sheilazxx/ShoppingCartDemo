@@ -55,13 +55,11 @@ public abstract class BaseFragment extends Fragment {
 
     protected abstract void initView(View mRootView);
 
-
     @Override
     public void onDestroyView() {
         unbinder.unbind();
         super.onDestroyView();
     }
-
 
     /**
      * 通过类名启动Activity
@@ -109,7 +107,6 @@ public abstract class BaseFragment extends Fragment {
         startActivity(intent);
     }
 
-
     /**
      * 功能描述：带数据的Activity之间的跳转
      *
@@ -150,8 +147,6 @@ public abstract class BaseFragment extends Fragment {
     public void onDestroy() {
         super.onDestroy();
 
-
     }
-
 
 }
