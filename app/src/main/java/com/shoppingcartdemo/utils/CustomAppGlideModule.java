@@ -5,8 +5,6 @@ import android.net.Uri;
 import android.widget.ImageView;
 
 import com.bumptech.glide.annotation.GlideModule;
-import com.bumptech.glide.load.resource.bitmap.CenterCrop;
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.module.AppGlideModule;
 import com.bumptech.glide.request.RequestOptions;
 
@@ -71,15 +69,15 @@ public class CustomAppGlideModule extends AppGlideModule {
                     .into(imageView);
 
         } else if (tag == ROUND) {
-            GlideApp
-                    .with(mContext)
-                    .load(url)
-                    .centerCrop()
-                    .placeholder(emptyImg)
-                    .error(erroImg)
-                    .fallback(emptyImg)
-                    .apply(new RequestOptions().transforms(new CenterCrop(), new RoundedCorners(20)))
-                    .into(imageView);
+//            GlideApp
+//                    .with(mContext)
+//                    .load(url)
+//                    .centerCrop()
+//                    .placeholder(emptyImg)
+//                    .error(erroImg)
+//                    .fallback(emptyImg)
+//                    .apply(new RequestOptions().transforms(new CenterCrop(), new RoundedCorners(20)))
+//                    .into(imageView);
 
 
         } else {

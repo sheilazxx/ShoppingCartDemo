@@ -6,8 +6,7 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
 
-    android:orientation="vertical"
-    app:layout_constraintHorizontal_chainStyle="packed">
+    android:orientation="vertical">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerView_fragment_shopcart"
@@ -35,13 +34,11 @@
         layout="@layout/item_shopcart_bottom_balance"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintBaseline_toBaselineOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
 
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
 
         />
-
 
 </android.support.constraint.ConstraintLayout>

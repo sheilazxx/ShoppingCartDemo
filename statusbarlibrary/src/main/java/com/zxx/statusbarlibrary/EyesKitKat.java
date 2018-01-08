@@ -30,7 +30,7 @@ class EyesKitKat {
         //设置Window为全透明
         window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
 
-        ViewGroup mContentView = window.findViewById(Window.ID_ANDROID_CONTENT);
+        ViewGroup mContentView = (ViewGroup) window.findViewById(Window.ID_ANDROID_CONTENT);
         //获取父布局
         View mContentChild = mContentView.getChildAt(0);
         //获取状态栏高度
@@ -63,7 +63,7 @@ class EyesKitKat {
         //设置Window为透明
         window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
 
-        ViewGroup mContentView = activity.findViewById(Window.ID_ANDROID_CONTENT);
+        ViewGroup mContentView = (ViewGroup) activity.findViewById(Window.ID_ANDROID_CONTENT);
         View mContentChild = mContentView.getChildAt(0);
 
         //移除已经存在假状态栏则,并且取消它的Margin间距
@@ -80,7 +80,7 @@ class EyesKitKat {
         Window window = activity.getWindow();
         //设置Window为全透明
         window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-        ViewGroup mContentView = window.findViewById(Window.ID_ANDROID_CONTENT);
+        ViewGroup mContentView = (ViewGroup) window.findViewById(Window.ID_ANDROID_CONTENT);
 
         //AppBarLayout,CollapsingToolbarLayout,ToolBar,ImageView的fitsSystemWindow统一改为false, 不预留系统栏位置.
         View mContentChild = mContentView.getChildAt(0);
@@ -142,7 +142,7 @@ class EyesKitKat {
         final Window window = activity.getWindow();
         window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
 
-        ViewGroup mContentView = window.findViewById(Window.ID_ANDROID_CONTENT);
+        ViewGroup mContentView = (ViewGroup) window.findViewById(Window.ID_ANDROID_CONTENT);
         View mContentChild = mContentView.getChildAt(0);
         mContentChild.setFitsSystemWindows(false);
         ((View) appBarLayout.getParent()).setFitsSystemWindows(false);

@@ -1,6 +1,5 @@
 package com.zxx.statusbarlibrary;
 
-
 import android.app.Activity;
 import android.content.Context;
 import android.os.Build;
@@ -20,7 +19,6 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
 public class Eyes {
-
 
     public static void setStatusBarColor(Activity activity, int statusColor) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -69,7 +67,7 @@ public class Eyes {
                 activity.getWindow().setStatusBarColor(color);
 
                 //fitsSystemWindow 为 false, 不预留系统栏位置.
-                ViewGroup mContentView = activity.getWindow().findViewById(Window.ID_ANDROID_CONTENT);
+                ViewGroup mContentView = (ViewGroup) activity.getWindow().findViewById(Window.ID_ANDROID_CONTENT);
                 View mChildView = mContentView.getChildAt(0);
                 if (mChildView != null) {
                     mChildView.setFitsSystemWindows(true);
@@ -79,7 +77,6 @@ public class Eyes {
         }
     }
 
-
     public static void setStatusBarLightForCollapsingToolbar(Activity activity, AppBarLayout appBarLayout,
                                                              CollapsingToolbarLayout collapsingToolbarLayout, Toolbar toolbar, int statusBarColor) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -88,7 +85,6 @@ public class Eyes {
             EyesKitKat.setStatusBarWhiteForCollapsingToolbar(activity, appBarLayout, collapsingToolbarLayout, toolbar, statusBarColor);
         }
     }
-
 
     /**
      * MIUI的沉浸支持透明白色字体和透明黑色字体
@@ -145,7 +141,7 @@ public class Eyes {
     }
 
     static void setContentTopPadding(Activity activity, int padding) {
-        ViewGroup mContentView = activity.getWindow().findViewById(Window.ID_ANDROID_CONTENT);
+        ViewGroup mContentView = (ViewGroup) activity.getWindow().findViewById(Window.ID_ANDROID_CONTENT);
         mContentView.setPadding(0, padding, 0, 0);
     }
 
