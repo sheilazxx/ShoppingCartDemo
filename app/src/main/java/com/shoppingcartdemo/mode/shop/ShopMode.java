@@ -64,9 +64,22 @@ public class ShopMode implements IMode<ShopCartBean> {
     }
 
     public void numberReduce(int parent_position, int child_position) {
-        GoodsBean goodsBean = goodsNumChange(2, parent_position, child_position);
-        if (goodsBean.isCheck()) {
-            price -= Double.parseDouble(goodsBean.getGoods_price());
+        List<ShopCartBean> list = mAdapter.getData();
+
+        ShopCartBean bean = list.get(parent_position);
+        List<GoodsBean> goodsList = bean.getGoods();
+        GoodsBean goodsBean = goodsList.get(child_position);
+        String goods_num = goodsBean.getGoods_number();
+        int goodsNum = Integer.parseInt(goods_num);
+        boolean canReduce = false;
+        if (goodsNum > 1) {
+            canReduce = true;
+        }
+        GoodsBean selectGoodsBean = goodsNumChange(2, parent_position, child_position);
+        Log.d(TAG, "goodsBean.number:" + goodsBean.getGoods_number());
+        if (selectGoodsBean.isCheck() && canReduce) {
+            price -= Double.parseDouble(selectGoodsBean.getGoods_price());
+            Log.d(TAG, "price:" + price);
             listener.onNumberReduce(price, select_list);
         }
     }
