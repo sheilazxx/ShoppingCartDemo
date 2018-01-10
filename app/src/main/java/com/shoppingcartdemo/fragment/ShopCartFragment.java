@@ -48,7 +48,7 @@ public class ShopCartFragment extends BaseFragment implements IView<ShopCartBean
     private List<ShopCartBean> select_list;//传到结算页面的商品数据
 
     private String token = "";
-    private String price = "";
+ 
 
     private ShopCartShopAdapter mAdapter;
     private ShopCarPresenter shopCarPresenter;
