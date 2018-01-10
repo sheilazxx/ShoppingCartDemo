@@ -48,7 +48,7 @@ public class ShopCartFragment extends BaseFragment implements IView<ShopCartBean
     private List<ShopCartBean> select_list;//传到结算页面的商品数据
 
     private String token = "";
- 
+
 
     private ShopCartShopAdapter mAdapter;
     private ShopCarPresenter shopCarPresenter;
@@ -109,7 +109,8 @@ public class ShopCartFragment extends BaseFragment implements IView<ShopCartBean
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tv_money_item_shopcart_bottom_balance:
-
+                 commit1++ ;
+                 LogUtils.e("commit1 ="+ commit1 );
                 break;
             case R.id.tv_banlance_item_shopcart_bottom_balance:
 
