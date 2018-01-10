@@ -30,6 +30,7 @@ import butterknife.OnClick;
 
 /**
  * Created by Administrator on 2017/12/19.
+ * 购物车页面
  */
 
 public class ShopCartFragment extends BaseFragment implements IView<ShopCartBean> {
@@ -47,9 +48,12 @@ public class ShopCartFragment extends BaseFragment implements IView<ShopCartBean
     private List<ShopCartBean> select_list;//传到结算页面的商品数据
 
     private String token = "";
+    private String price = "" ;
 
     private ShopCartShopAdapter mAdapter;
     private ShopCarPresenter shopCarPresenter;
+
+
 
     @Override
     protected int getLayoutId() {
