@@ -88,6 +88,11 @@ public class ShopMode implements IMode<ShopCartBean> {
         List<ShopCartBean> list = mAdapter.getData();
 
         ShopCartBean bean = list.get(position);
+        int index = isContainsShopBean(select_list, bean);
+        if (index != -1) {
+            select_list.remove(index);
+        }
+
         boolean isSelected;
         boolean checkAll;
         if (bean.isCheck()) {
@@ -109,7 +114,6 @@ public class ShopMode implements IMode<ShopCartBean> {
                 if (!bean.getGoods().get(i).isCheck()) {
                     bean.getGoods().get(i).setCheck(true);
                     price += Double.parseDouble(bean.getGoods().get(i).getGoods_number()) * Double.parseDouble(bean.getGoods().get(i).getGoods_price());
-//                    tvMoney.setText(String.valueOf(price));
                 }
             }
             select_list.add(bean);
@@ -121,7 +125,6 @@ public class ShopMode implements IMode<ShopCartBean> {
                     if (bean.getGoods().get(i).isCheck()) {
                         bean.getGoods().get(i).setCheck(false);
                         price -= Double.parseDouble(bean.getGoods().get(i).getGoods_number()) * Double.parseDouble(bean.getGoods().get(i).getGoods_price());
-//                        tvMoney.setText(String.valueOf(price));
                     }
                 }
                 select_list.remove(bean);
@@ -160,30 +163,39 @@ public class ShopMode implements IMode<ShopCartBean> {
         List<ShopCartBean> list = mAdapter.getData();
 
         ShopCartBean bean = list.get(parent_position);
-        select_list.remove(bean);
+        ShopCartBean selectBean = new ShopCartBean();
+        selectBean.clearGoods(bean, select_list);
+
         List<GoodsBean> goodsList = bean.getGoods();
         GoodsBean goodsBean = goodsList.get(child_position);
-        bean.getGoods().clear();
         boolean isSelected;
         boolean checkAll;
         if (goodsBean.isCheck()) {
             isSelected = false;
             price -= Double.parseDouble(goodsBean.getGoods_number()) * Double.parseDouble(goodsBean.getGoods_price());
-            bean.getGoods().remove(goodsBean);
+            selectBean.getGoods().remove(goodsBean);
         } else {
             isSelected = true;
             price += Double.parseDouble(goodsBean.getGoods_number()) * Double.parseDouble(goodsBean.getGoods_price());
-            bean.getGoods().add(goodsBean);
+            selectBean.getGoods().add(goodsBean);
         }
-        select_list.add(bean);
         //保存商品点击状态
         goodsBean.setCheck(isSelected);
         //通知店铺选择的状态
         if (allChildSelect(parent_position) == goodsList.size()) {
             bean.setCheck(true);
+            selectBean.setCheck(true);
         } else {
             bean.setCheck(false);
+            selectBean.setCheck(false);
         }
+        int index = isContainsShopBean(select_list, selectBean);
+        if (index != -1) {
+            ShopCartBean shopCartBean = select_list.get(index);
+//            selectBean.getGoods().addAll(shopCartBean.getGoods());
+            select_list.remove(index);
+        }
+        select_list.add(selectBean);
 
         //通知全选CheckBox的选择状态
         if (allSelect() == list.size()) {
@@ -193,6 +205,18 @@ public class ShopMode implements IMode<ShopCartBean> {
         }
         mAdapter.notifyItemChanged(parent_position);
         listener.onItemChildClick(price, checkAll, select_list);
+    }
+
+    private int isContainsShopBean(List<ShopCartBean> existShopBeanList, ShopCartBean shopCartBean) {
+        for (int i = 0; i < existShopBeanList.size(); i++) {
+            ShopCartBean selectBean = existShopBeanList.get(i);
+            Log.d(TAG, "selectBean.getSupplier_id" + selectBean.getSupplier_id());
+            Log.d(TAG, "shopCartBean.getSupplier_id" + shopCartBean.getSupplier_id());
+            if (selectBean.getSupplier_id().equals(shopCartBean.getSupplier_id())) {
+                return i;
+            }
+        }
+        return -1;
     }
 
     public void selectAll() {
@@ -259,10 +283,11 @@ public class ShopMode implements IMode<ShopCartBean> {
         List<ShopCartBean> list = mAdapter.getData();
 
         ShopCartBean bean = list.get(parent_position);
-        select_list.remove(bean);
+
+//        select_list.remove(bean);
         List<GoodsBean> goodsList = bean.getGoods();
         GoodsBean goodsBean = goodsList.get(child_position);
-        goodsList.clear();
+//        goodsList.clear();
         String goods_num = goodsBean.getGoods_number();
         int goodsNum = Integer.parseInt(goods_num);
 
@@ -278,7 +303,15 @@ public class ShopMode implements IMode<ShopCartBean> {
         goodsBean.setGoods_number(String.valueOf(goodsNum));
         goodsList.add(goodsBean);
         bean.setGoods(goodsList);
-        select_list.add(bean);
+        ShopCartBean selectBean = new ShopCartBean();
+        selectBean.clearGoods(bean, select_list);
+        int index = isContainsShopBean(select_list, selectBean);
+        if (index != -1) {
+            ShopCartBean shopCartBean = select_list.get(index);
+//            selectBean.getGoods().addAll(shopCartBean.getGoods());
+            select_list.remove(index);
+        }
+        select_list.add(selectBean);
         mAdapter.notifyItemChanged(parent_position);
         return goodsBean;
     }

@@ -1,5 +1,6 @@
 package com.shoppingcartdemo.bean;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -7,7 +8,6 @@ import java.util.List;
  */
 
 public class ShopCartBean {
-
 
     /**
      * supplier_id : 1799
@@ -17,7 +17,7 @@ public class ShopCartBean {
      * activity : []
      */
 
-    private boolean isCheck ;
+    private boolean isCheck;
 
     private String supplier_id;
     private String supplier_name;
@@ -25,6 +25,29 @@ public class ShopCartBean {
     private List<ShippingListBean> shipping_list;
     private List<GoodsActivity> activity;
 
+    //清空
+    public void clearGoods(ShopCartBean shopCartBean, List<ShopCartBean> select_list) {
+        this.isCheck = shopCartBean.isCheck;
+        this.supplier_id = shopCartBean.supplier_id;
+        this.supplier_name = shopCartBean.supplier_name;
+        this.goods = new ArrayList<>();
+        int index = isContainsShopBean(select_list, this);
+        if (index != -1) {
+            this.goods.addAll(select_list.get(index).getGoods());
+        }
+        this.shipping_list = shopCartBean.shipping_list;
+        this.activity = shopCartBean.activity;
+    }
+
+    private int isContainsShopBean(List<ShopCartBean> existShopBeanList, ShopCartBean shopCartBean) {
+        for (int i = 0; i < existShopBeanList.size(); i++) {
+            ShopCartBean selectBean = existShopBeanList.get(i);
+            if (selectBean.getSupplier_id().equals(shopCartBean.getSupplier_id())) {
+                return i;
+            }
+        }
+        return -1;
+    }
 
     public boolean isCheck() {
         return isCheck;
@@ -73,7 +96,6 @@ public class ShopCartBean {
     public void setActivity(List<GoodsActivity> activity) {
         this.activity = activity;
     }
-
 
     @Override
     public String toString() {
