@@ -96,14 +96,18 @@ public class ShopCartFragment extends BaseFragment {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 List<ShopCartBean> list = mAdapter.getData();
-
                 ShopCartBean bean = list.get(position);
+
+
+
                 boolean isSelected;
                 if (bean.isCheck()) {
                     isSelected = false;
 
                 } else {
                     isSelected = true;
+
+                   select_list.add(bean);
                 }
 
                 //保存店铺点击状态
@@ -115,6 +119,7 @@ public class ShopCartFragment extends BaseFragment {
                     cbAllCheck.setChecked(false);
                 }
                 if (isSelected) {
+
                     for (int i = 0; i < bean.getGoods().size(); i++) {
                         if (!bean.getGoods().get(i).isCheck()) {
                             bean.getGoods().get(i).setCheck(true);
@@ -139,8 +144,6 @@ public class ShopCartFragment extends BaseFragment {
 
                 mAdapter.notifyItemChanged(position);
 
-
-//                calculate();
             }
         });
 
@@ -184,7 +187,7 @@ public class ShopCartFragment extends BaseFragment {
                 }
                 mAdapter.notifyItemChanged(parent_position);
 
-//                calculate();
+
             }
 
 
@@ -234,7 +237,7 @@ public class ShopCartFragment extends BaseFragment {
                 }
                 //更新
                 mAdapter.notifyDataSetChanged();
-//                calculate();
+
             }
         });
 
@@ -291,7 +294,6 @@ public class ShopCartFragment extends BaseFragment {
         goodsBean.setGoods_number(String.valueOf(goodsNum));
         mAdapter.notifyItemChanged(parent_position);
 
-//        calculate();
         return goodsBean;
     }
 
