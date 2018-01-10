@@ -48,12 +48,13 @@ public class ShopCartFragment extends BaseFragment implements IView<ShopCartBean
     private List<ShopCartBean> select_list;//传到结算页面的商品数据
 
     private String token = "";
-    private String price ="";
+    private String price = "";
 
     private ShopCartShopAdapter mAdapter;
     private ShopCarPresenter shopCarPresenter;
 
-
+    //向成添加的内容
+    private int commit1;
 
     @Override
     protected int getLayoutId() {
@@ -81,8 +82,8 @@ public class ShopCartFragment extends BaseFragment implements IView<ShopCartBean
         cbAllCheck.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                 double  goodsPrice  =0.00;
-                 int   number   =0;
+                double goodsPrice = 0.00;
+                int number = 0;
 
                 if (isChecked) {
                     shopCarPresenter.selectAll();
