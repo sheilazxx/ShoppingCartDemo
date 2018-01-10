@@ -163,15 +163,17 @@ public class ShopMode implements IMode<ShopCartBean> {
         select_list.remove(bean);
         List<GoodsBean> goodsList = bean.getGoods();
         GoodsBean goodsBean = goodsList.get(child_position);
-
+        bean.getGoods().clear();
         boolean isSelected;
         boolean checkAll;
         if (goodsBean.isCheck()) {
             isSelected = false;
             price -= Double.parseDouble(goodsBean.getGoods_number()) * Double.parseDouble(goodsBean.getGoods_price());
+            bean.getGoods().remove(goodsBean);
         } else {
             isSelected = true;
             price += Double.parseDouble(goodsBean.getGoods_number()) * Double.parseDouble(goodsBean.getGoods_price());
+            bean.getGoods().add(goodsBean);
         }
         select_list.add(bean);
         //保存商品点击状态
@@ -260,7 +262,7 @@ public class ShopMode implements IMode<ShopCartBean> {
         select_list.remove(bean);
         List<GoodsBean> goodsList = bean.getGoods();
         GoodsBean goodsBean = goodsList.get(child_position);
-        goodsList.remove(goodsBean);
+        goodsList.clear();
         String goods_num = goodsBean.getGoods_number();
         int goodsNum = Integer.parseInt(goods_num);
 
