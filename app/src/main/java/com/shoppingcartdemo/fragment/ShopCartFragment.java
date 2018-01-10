@@ -81,6 +81,9 @@ public class ShopCartFragment extends BaseFragment implements IView<ShopCartBean
         cbAllCheck.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                 double  goodsPrice  =0.00;
+                 int   number   =0;
+
                 if (isChecked) {
                     shopCarPresenter.selectAll();
                 } else {
