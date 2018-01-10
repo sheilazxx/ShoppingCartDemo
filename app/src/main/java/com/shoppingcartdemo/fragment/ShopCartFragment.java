@@ -1,6 +1,5 @@
 package com.shoppingcartdemo.fragment;
 
-import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -8,19 +7,15 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SimpleItemAnimator;
 import android.view.View;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.shoppingcartdemo.R;
-import com.shoppingcartdemo.activity.LoginActivity;
 import com.shoppingcartdemo.adapter.ShopCartShopAdapter;
 import com.shoppingcartdemo.base.BaseFragment;
+import com.shoppingcartdemo.bean.GoodsBean;
 import com.shoppingcartdemo.bean.ShopCartBean;
 import com.shoppingcartdemo.presenter.shop.ShopCarPresenter;
-import com.shoppingcartdemo.utils.Constants;
-import com.shoppingcartdemo.utils.LogUtils;
-import com.shoppingcartdemo.utils.SPUtils;
 import com.shoppingcartdemo.view.IView;
 
 import java.util.List;
@@ -70,7 +65,7 @@ public class ShopCartFragment extends BaseFragment implements IView<ShopCartBean
         mAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-<<<<<<< HEAD
+
                 List<ShopCartBean> list = mAdapter.getData();
                 ShopCartBean bean = list.get(position);
 
@@ -169,12 +164,12 @@ public class ShopCartFragment extends BaseFragment implements IView<ShopCartBean
 
         });
 
-=======
+
                 shopCarPresenter.itemChildClick(position);
             }
         });
 
->>>>>>> 46dbaaaaf82e9eb0af32cd378985ed35e41be687
+
         cbAllCheck.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -184,7 +179,7 @@ public class ShopCartFragment extends BaseFragment implements IView<ShopCartBean
                     //只有当点击全不选时才执行
                     // 解决点击取消选择店铺或商品时，
                     // 全选按钮取消选择状态，不会不变成全不选
-<<<<<<< HEAD
+
                     if (allSelect() == list.size()) {
                         for (int i = 0; i < list.size(); i++) {
                             ShopCartBean shopCartBean = list.get(i);
@@ -227,16 +222,16 @@ public class ShopCartFragment extends BaseFragment implements IView<ShopCartBean
                 if (goodsBean.isCheck()) {
                     price -= Double.parseDouble(goodsBean.getGoods_price());
                     tvMoney.setText(String.valueOf(price));
-=======
+
                     shopCarPresenter.unSelectAll();
->>>>>>> 46dbaaaaf82e9eb0af32cd378985ed35e41be687
+
                 }
             }
         });
 
     }
 
-<<<<<<< HEAD
+
 
     //商品数量的增减
     private GoodsBean goodsNumChange(int type, int parent_position, int child_position) {
@@ -305,8 +300,7 @@ public class ShopCartFragment extends BaseFragment implements IView<ShopCartBean
     }
 
 
-=======
->>>>>>> 46dbaaaaf82e9eb0af32cd378985ed35e41be687
+
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);

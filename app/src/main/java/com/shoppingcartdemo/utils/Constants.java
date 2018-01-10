@@ -5,15 +5,8 @@ package com.shoppingcartdemo.utils;
  */
 
 public class Constants {
+    public static String  BASEURL  ="";
 
-//    public static String  BASEURL  ="http://hzf89.cn/app/index.php/App/";
-    public static final String  BASEURL  ="http://cs.wu10086.cn/app/index.php/App/";
-//    public static final String  BASEURL  ="http://1.wu10086.cn/app/index.php/App/";
-//    public static final String  BASEURL  ="http://2.wu10086.cn/app/index.php/App/";
-//    public static final String  BASEURL  ="http://3.wu10086.cn/app/index.php/App/";
-//    public static final String  BASEURL  ="http://hzf89.cn/app/index.php/App/";
-
-//    public static String PUBLICPART = "/app/index.php/App/";
 
     public static final String version = String.valueOf(47);
     public static final String devices_type = "android";
