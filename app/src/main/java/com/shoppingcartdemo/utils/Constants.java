@@ -5,9 +5,9 @@ package com.shoppingcartdemo.utils;
  */
 
 public class Constants {
+
+
     public static String  BASEURL  ="";
-
-
     public static final String version = String.valueOf(47);
     public static final String devices_type = "android";
 
