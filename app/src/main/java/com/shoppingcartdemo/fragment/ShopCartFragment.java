@@ -1,6 +1,5 @@
 package com.shoppingcartdemo.fragment;
 
-import android.content.res.AssetManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
@@ -13,48 +12,27 @@ import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.google.gson.Gson;
-import com.google.gson.JsonParseException;
-import com.google.gson.reflect.TypeToken;
 import com.shoppingcartdemo.R;
 import com.shoppingcartdemo.activity.LoginActivity;
 import com.shoppingcartdemo.adapter.ShopCartShopAdapter;
-import com.shoppingcartdemo.base.BaseBean;
 import com.shoppingcartdemo.base.BaseFragment;
-import com.shoppingcartdemo.bean.GoodsBean;
 import com.shoppingcartdemo.bean.ShopCartBean;
-import com.shoppingcartdemo.inter.AppClient;
+import com.shoppingcartdemo.presenter.shop.ShopCarPresenter;
 import com.shoppingcartdemo.utils.Constants;
 import com.shoppingcartdemo.utils.LogUtils;
 import com.shoppingcartdemo.utils.SPUtils;
+import com.shoppingcartdemo.view.IView;
 
-import org.json.JSONException;
-
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.io.InterruptedIOException;
-import java.net.ConnectException;
-import java.net.UnknownHostException;
-import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import io.reactivex.Observable;
-import io.reactivex.Observer;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.schedulers.Schedulers;
-import retrofit2.HttpException;
 
 /**
  * Created by Administrator on 2017/12/19.
  */
 
-public class ShopCartFragment extends BaseFragment {
+public class ShopCartFragment extends BaseFragment implements IView<ShopCartBean> {
     @BindView(R.id.recyclerView_fragment_shopcart)
     RecyclerView recyclerView;
     @BindView(R.id.cb_all_check_item_shopcart_bottom_balance)
@@ -66,13 +44,13 @@ public class ShopCartFragment extends BaseFragment {
     @BindView(R.id.layout_item_shopcart_bottom_balance)
     ConstraintLayout layout;
 
-    private List<ShopCartBean> select_list = new ArrayList<>();//传到结算页面的商品数据
+    private List<ShopCartBean> select_list;//传到结算页面的商品数据
 
     private String token = "";
 
     private ShopCartShopAdapter mAdapter;
+    private ShopCarPresenter shopCarPresenter;
 
-    private double price;
     @Override
     protected int getLayoutId() {
         return R.layout.fragment_shopcart;
@@ -85,16 +63,14 @@ public class ShopCartFragment extends BaseFragment {
         recyclerView.setLayoutManager(layoutManager);
         //解决单条刷新时图片闪烁问题
         ((SimpleItemAnimator) recyclerView.getItemAnimator()).setSupportsChangeAnimations(false);
-        mAdapter = new ShopCartShopAdapter(mContext, R.layout.item_shopcart_shop);
+        shopCarPresenter = new ShopCarPresenter(mContext, this);
+        mAdapter = new ShopCartShopAdapter(mContext, R.layout.item_shopcart_shop, shopCarPresenter);
         recyclerView.setAdapter(mAdapter);
-
-
-        /**
-         * 商铺全选的点击事件监听
-         */
+        shopCarPresenter.setmAdapter(mAdapter);
         mAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+<<<<<<< HEAD
                 List<ShopCartBean> list = mAdapter.getData();
                 ShopCartBean bean = list.get(position);
 
@@ -193,31 +169,22 @@ public class ShopCartFragment extends BaseFragment {
 
         });
 
+=======
+                shopCarPresenter.itemChildClick(position);
+            }
+        });
+
+>>>>>>> 46dbaaaaf82e9eb0af32cd378985ed35e41be687
         cbAllCheck.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                List<ShopCartBean> list = mAdapter.getData();
                 if (isChecked) {
-                    for (int i = 0; i < list.size(); i++) {
-                        ShopCartBean shopCartBean = list.get(i);
-
-                        //选择店铺
-                        if (!shopCartBean.isCheck()) {
-                            shopCartBean.setCheck(true);
-                        }
-                        for (int j = 0; j < shopCartBean.getGoods().size(); j++) {
-                            //选择店铺的商品
-                            if (!shopCartBean.getGoods().get(j).isCheck()) {
-                                shopCartBean.getGoods().get(j).setCheck(true);
-                                price += Double.parseDouble(shopCartBean.getGoods().get(j).getGoods_number()) * Double.parseDouble(shopCartBean.getGoods().get(j).getGoods_price());
-                                tvMoney.setText(String.valueOf(price));
-                            }
-                        }
-                    }
+                    shopCarPresenter.selectAll();
                 } else {
                     //只有当点击全不选时才执行
                     // 解决点击取消选择店铺或商品时，
                     // 全选按钮取消选择状态，不会不变成全不选
+<<<<<<< HEAD
                     if (allSelect() == list.size()) {
                         for (int i = 0; i < list.size(); i++) {
                             ShopCartBean shopCartBean = list.get(i);
@@ -260,13 +227,16 @@ public class ShopCartFragment extends BaseFragment {
                 if (goodsBean.isCheck()) {
                     price -= Double.parseDouble(goodsBean.getGoods_price());
                     tvMoney.setText(String.valueOf(price));
+=======
+                    shopCarPresenter.unSelectAll();
+>>>>>>> 46dbaaaaf82e9eb0af32cd378985ed35e41be687
                 }
             }
         });
 
-
     }
 
+<<<<<<< HEAD
 
     //商品数量的增减
     private GoodsBean goodsNumChange(int type, int parent_position, int child_position) {
@@ -335,133 +305,13 @@ public class ShopCartFragment extends BaseFragment {
     }
 
 
+=======
+>>>>>>> 46dbaaaaf82e9eb0af32cd378985ed35e41be687
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         token = SPUtils.getString(mContext, Constants.token);
-
-//        getData(token);
-//
-        getJsonData();
-    }
-
-    private void getJsonData() {
-
-        StringBuilder stringBuilder = new StringBuilder();
-        try {
-            AssetManager assetManager = mContext.getAssets();
-            BufferedReader bf = new BufferedReader(new InputStreamReader(assetManager.open("shopcartdata.json")));
-            String line;
-            while ((line = bf.readLine()) != null) {
-                stringBuilder.append(line);
-            }
-
-            String json = stringBuilder.toString();
-
-            Gson gson = new Gson();
-            List<ShopCartBean> list = gson.fromJson(json, new TypeToken<List<ShopCartBean>>() {
-            }.getType());//对于不是类的情况，用这个参数给出
-
-            mAdapter.addData(list);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-
-    }
-
-    private void getData(String token) {
-
-        Map<String, String> map = new HashMap<>();
-        map.put(Constants.token, token);
-
-        AppClient.ApiStores apiStores = AppClient.getRetrofit(mContext).create(AppClient.ApiStores.class);
-        Observable<BaseBean<List<ShopCartBean>>> observable = apiStores.cart_list(map);
-        observable.subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<BaseBean<List<ShopCartBean>>>() {
-                    @Override
-                    public void onSubscribe(Disposable d) {
-                        LogUtils.d("onSubscribe");
-                    }
-
-                    @Override
-                    public void onNext(BaseBean<List<ShopCartBean>> baseBean) {
-                        LogUtils.d("onNext=" + baseBean.toString());
-
-
-                        String code = baseBean.getCode();
-                        if ("3002".equals(code)) {
-                            openActivity(LoginActivity.class);
-                            SPUtils.clearData(mContext, Constants.token);
-                        } else {
-
-                            List<ShopCartBean> list = baseBean.getData();
-
-                            if (list != null && list.size() > 0) {
-                                mAdapter.addData(list);
-                                layout.setVisibility(View.VISIBLE);
-                            } else {
-                                layout.setVisibility(View.GONE);
-                            }
-
-                        }
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        LogUtils.d("e=" + e.getMessage());
-
-
-                        if (e instanceof HttpException) {     //   HTTP错误
-
-                        } else if (e instanceof ConnectException || e instanceof UnknownHostException) {   //   连接错误
-
-                        } else if (e instanceof InterruptedIOException) {   //  连接超时
-
-                        } else if (e instanceof JsonParseException || e instanceof JSONException || e instanceof ParseException) {   //  解析错误
-
-                        } else {
-
-                        }
-
-
-                    }
-
-                    @Override
-                    public void onComplete() {
-                        LogUtils.d("onCompleted");
-                    }
-                });
-
-
-    }
-
-    //计算店铺的选择数量
-    private int allSelect() {
-        List<ShopCartBean> list = mAdapter.getData();
-        int sum = 0;
-        for (int i = 0; i < list.size(); i++) {
-            if (list.get(i).isCheck()) {
-                sum++;
-            }
-        }
-
-        return sum;
-    }
-
-    //计算每个店铺商品的选择数量
-    private int allChildSelect(int position) {
-        List<ShopCartBean> list = mAdapter.getData();
-        int sum = 0;
-        for (int i = 0; i < list.get(position).getGoods().size(); i++) {
-            if (list.get(position).getGoods().get(i).isCheck()) {
-                sum++;
-            }
-        }
-        return sum;
+        shopCarPresenter.presenterList();
     }
 
     @OnClick({R.id.tv_money_item_shopcart_bottom_balance, R.id.tv_banlance_item_shopcart_bottom_balance})
@@ -472,10 +322,60 @@ public class ShopCartFragment extends BaseFragment {
                 break;
             case R.id.tv_banlance_item_shopcart_bottom_balance:
 
-
                 break;
         }
     }
 
+    @Override
+    public void showSuccessPage(List<ShopCartBean> list) {
+        LogUtils.d("showSuccessPage");
+        mAdapter.addData(list);
+        layout.setVisibility(View.VISIBLE);
+    }
 
+    @Override
+    public void showSuccessPage(ShopCartBean shopCartBean) {
+
+    }
+
+    @Override
+    public void showErrorPage() {
+
+    }
+
+    @Override
+    public void showEmptyPage() {
+        layout.setVisibility(View.GONE);
+    }
+
+    public void showCode3002() {
+        openActivity(LoginActivity.class);
+        SPUtils.clearData(mContext, Constants.token);
+    }
+
+    public void itemChildClick(double price, boolean isChecked, List<ShopCartBean> select_list) {
+        tvMoney.setText(String.valueOf(price));
+        cbAllCheck.setChecked(isChecked);
+        this.select_list = select_list;
+    }
+
+    public void selectAll(double price, List<ShopCartBean> select_list) {
+        tvMoney.setText(String.valueOf(price));
+        this.select_list = select_list;
+    }
+
+    public void unSelectAll(double price, List<ShopCartBean> select_list) {
+        tvMoney.setText(String.valueOf(price));
+        this.select_list = select_list;
+    }
+
+    public void numberAdd(double price, List<ShopCartBean> select_list) {
+        tvMoney.setText(String.valueOf(price));
+        this.select_list = select_list;
+    }
+
+    public void numberReduce(double price, List<ShopCartBean> select_list) {
+        tvMoney.setText(String.valueOf(price));
+        this.select_list = select_list;
+    }
 }
