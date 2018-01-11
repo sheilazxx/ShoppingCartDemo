@@ -113,7 +113,7 @@ public class ShopCartFragment extends BaseFragment implements IView<ShopCartBean
                 LogUtils.e("commit1 =" + commit1);
                 break;
             case R.id.tv_banlance_item_shopcart_bottom_balance:
-
+                LogUtils.e("select_list =" + select_list.toString());
                 break;
         }
     }

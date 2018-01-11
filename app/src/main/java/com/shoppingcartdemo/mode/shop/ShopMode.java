@@ -301,8 +301,8 @@ public class ShopMode implements IMode<ShopCartBean> {
         }
 
         goodsBean.setGoods_number(String.valueOf(goodsNum));
-        goodsList.add(goodsBean);
-        bean.setGoods(goodsList);
+//        goodsList.add(goodsBean);
+//        bean.setGoods(goodsList);
         ShopCartBean selectBean = new ShopCartBean();
         selectBean.clearGoods(bean, select_list);
         int index = isContainsShopBean(select_list, selectBean);
