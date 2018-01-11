@@ -6,16 +6,15 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.google.gson.JsonParseException;
-import com.shoppingcartdemo.inter.AppClient;
 import com.shoppingcartdemo.R;
 import com.shoppingcartdemo.base.BaseActivity;
 import com.shoppingcartdemo.base.BaseBean;
 import com.shoppingcartdemo.bean.UserInfoBean;
+import com.shoppingcartdemo.inter.AppClient;
 import com.shoppingcartdemo.utils.Constants;
 import com.shoppingcartdemo.utils.LogUtils;
 import com.shoppingcartdemo.utils.MD5Utils;
 import com.shoppingcartdemo.utils.SPUtils;
-import com.shoppingcartdemo.utils.SignUtils;
 import com.shoppingcartdemo.utils.ToastUtil;
 
 import org.json.JSONException;
@@ -24,7 +23,6 @@ import java.io.InterruptedIOException;
 import java.net.ConnectException;
 import java.net.UnknownHostException;
 import java.text.ParseException;
-import java.util.HashMap;
 import java.util.Map;
 
 import butterknife.BindView;
@@ -78,37 +76,11 @@ public class LoginActivity extends BaseActivity {
             return;
         }
         if (!TextUtils.isEmpty(userName) && !TextUtils.isEmpty(passWord)) {
-            login(userName, passWord);
+//            login(userName, passWord);
         }
 
     }
 
-    private void login(String userName, String passWord) {
-
-
-        Map<String, String> map = new HashMap<>();
-
-        map.put("username", userName);
-        map.put("password", passWord);
-        map.put("version", Constants.version);
-        map.put("devices_type", Constants.devices_type);
-
-
-        long sign_time_long = System.currentTimeMillis() / 1000;
-        int sign_key_int = SignUtils.getRandom(10000, 99999);
-
-        String sign_key = String.valueOf(sign_key_int);
-        String sign_time = String.valueOf(sign_time_long);
-
-        String sign = SignUtils.get_sign(map, sign_key, sign_time);
-
-        map.put("sign_key", sign_key);
-        map.put("sign_time", sign_time);
-        map.put("sign", sign);
-        getLoginData3(map);
-
-
-    }
 
 
     private void getLoginData3(Map<String, String> map) {
