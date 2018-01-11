@@ -6,7 +6,6 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.shoppingcartdemo.adapter.ShopCartShopAdapter;
 import com.shoppingcartdemo.bean.GoodsBean;
 import com.shoppingcartdemo.bean.ShopCartBean;
 import com.shoppingcartdemo.mode.IMode;
@@ -23,14 +22,9 @@ import java.util.List;
 public class ShopMode implements IMode<ShopCartBean> {
     private static final String TAG = ShopMode.class.getSimpleName();
     private Context context;
-
-    public void setmAdapter(ShopCartShopAdapter mAdapter) {
-        this.mAdapter = mAdapter;
-    }
-
-    ShopCartShopAdapter mAdapter;
     private double price;
     private List<ShopCartBean> select_list = new ArrayList<>();//传到结算页面的商品数据
+    private List<ShopCartBean> allShopCarBean = new ArrayList<>();//传到结算页面的商品数据
 
     private ShopLoaderListener listener;
 
@@ -56,17 +50,14 @@ public class ShopMode implements IMode<ShopCartBean> {
             List<ShopCartBean> list = gson.fromJson(json, new TypeToken<List<ShopCartBean>>() {
             }.getType());//对于不是类的情况，用这个参数给出
             listener.loadSuccess(list);
-//            mAdapter.addData(list);
-
+            allShopCarBean.addAll(list);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     public void numberReduce(int parent_position, int child_position) {
-        List<ShopCartBean> list = mAdapter.getData();
-
-        ShopCartBean bean = list.get(parent_position);
+        ShopCartBean bean = allShopCarBean.get(parent_position);
         List<GoodsBean> goodsList = bean.getGoods();
         GoodsBean goodsBean = goodsList.get(child_position);
         String goods_num = goodsBean.getGoods_number();
@@ -85,9 +76,7 @@ public class ShopMode implements IMode<ShopCartBean> {
     }
 
     public void itemChildClick(int position) {
-        List<ShopCartBean> list = mAdapter.getData();
-
-        ShopCartBean bean = list.get(position);
+        ShopCartBean bean = allShopCarBean.get(position);
         int index = isContainsShopBean(select_list, bean);
         if (index != -1) {
             select_list.remove(index);
@@ -104,7 +93,7 @@ public class ShopMode implements IMode<ShopCartBean> {
         //保存店铺点击状态
         bean.setCheck(isSelected);
         //通知全选CheckBox的选择状态
-        if (allSelect() == list.size()) {
+        if (allSelect() == allShopCarBean.size()) {
             checkAll = true;
         } else {
             checkAll = false;
@@ -130,16 +119,14 @@ public class ShopMode implements IMode<ShopCartBean> {
                 select_list.remove(bean);
             }
         }
-        mAdapter.notifyItemChanged(position);
-        listener.onItemChildClick(price, checkAll, select_list);
+        listener.onItemChildClick(price, checkAll, select_list, position);
     }
 
     //计算店铺的选择数量
     private int allSelect() {
-        List<ShopCartBean> list = mAdapter.getData();
         int sum = 0;
-        for (int i = 0; i < list.size(); i++) {
-            if (list.get(i).isCheck()) {
+        for (int i = 0; i < allShopCarBean.size(); i++) {
+            if (allShopCarBean.get(i).isCheck()) {
                 sum++;
             }
         }
@@ -149,10 +136,9 @@ public class ShopMode implements IMode<ShopCartBean> {
 
     //计算每个店铺商品的选择数量
     private int allChildSelect(int position) {
-        List<ShopCartBean> list = mAdapter.getData();
         int sum = 0;
-        for (int i = 0; i < list.get(position).getGoods().size(); i++) {
-            if (list.get(position).getGoods().get(i).isCheck()) {
+        for (int i = 0; i < allShopCarBean.get(position).getGoods().size(); i++) {
+            if (allShopCarBean.get(position).getGoods().get(i).isCheck()) {
                 sum++;
             }
         }
@@ -160,9 +146,7 @@ public class ShopMode implements IMode<ShopCartBean> {
     }
 
     public void childClick(int parent_position, int child_position) {
-        List<ShopCartBean> list = mAdapter.getData();
-
-        ShopCartBean bean = list.get(parent_position);
+        ShopCartBean bean = allShopCarBean.get(parent_position);
         ShopCartBean selectBean = new ShopCartBean();
         selectBean.clearGoods(bean, select_list);
 
@@ -191,20 +175,17 @@ public class ShopMode implements IMode<ShopCartBean> {
         }
         int index = isContainsShopBean(select_list, selectBean);
         if (index != -1) {
-            ShopCartBean shopCartBean = select_list.get(index);
-//            selectBean.getGoods().addAll(shopCartBean.getGoods());
             select_list.remove(index);
         }
         select_list.add(selectBean);
 
         //通知全选CheckBox的选择状态
-        if (allSelect() == list.size()) {
+        if (allSelect() == allShopCarBean.size()) {
             checkAll = true;
         } else {
             checkAll = false;
         }
-        mAdapter.notifyItemChanged(parent_position);
-        listener.onItemChildClick(price, checkAll, select_list);
+        listener.onItemChildClick(price, checkAll, select_list, parent_position);
     }
 
     private int isContainsShopBean(List<ShopCartBean> existShopBeanList, ShopCartBean shopCartBean) {
@@ -220,11 +201,10 @@ public class ShopMode implements IMode<ShopCartBean> {
     }
 
     public void selectAll() {
-        List<ShopCartBean> list = mAdapter.getData();
         price = 0;
         select_list.clear();
-        for (int i = 0; i < list.size(); i++) {
-            ShopCartBean shopCartBean = list.get(i);
+        for (int i = 0; i < allShopCarBean.size(); i++) {
+            ShopCartBean shopCartBean = allShopCarBean.get(i);
 
             //选择店铺
             if (!shopCartBean.isCheck()) {
@@ -240,16 +220,13 @@ public class ShopMode implements IMode<ShopCartBean> {
             }
             select_list.add(shopCartBean);
         }
-        //更新
-        mAdapter.notifyDataSetChanged();
         listener.onSelctAll(price, select_list);
     }
 
     public void unSelectAll() {
-        List<ShopCartBean> list = mAdapter.getData();
-        if (allSelect() == list.size()) {
-            for (int i = 0; i < list.size(); i++) {
-                ShopCartBean shopCartBean = list.get(i);
+        if (allSelect() == allShopCarBean.size()) {
+            for (int i = 0; i < allShopCarBean.size(); i++) {
+                ShopCartBean shopCartBean = allShopCarBean.get(i);
 
                 if (shopCartBean.isCheck()) {
                     shopCartBean.setCheck(false);
@@ -264,9 +241,6 @@ public class ShopMode implements IMode<ShopCartBean> {
             price = 0;
             listener.onUnSelectAll(price, select_list);
         }
-        //更新
-        mAdapter.notifyDataSetChanged();
-
     }
 
     public void numberAdd(int parent_position, int child_position) {
@@ -279,15 +253,10 @@ public class ShopMode implements IMode<ShopCartBean> {
 
     //商品数量的增减
     private GoodsBean goodsNumChange(int type, int parent_position, int child_position) {
+        ShopCartBean bean = allShopCarBean.get(parent_position);
 
-        List<ShopCartBean> list = mAdapter.getData();
-
-        ShopCartBean bean = list.get(parent_position);
-
-//        select_list.remove(bean);
         List<GoodsBean> goodsList = bean.getGoods();
         GoodsBean goodsBean = goodsList.get(child_position);
-//        goodsList.clear();
         String goods_num = goodsBean.getGoods_number();
         int goodsNum = Integer.parseInt(goods_num);
 
@@ -301,18 +270,14 @@ public class ShopMode implements IMode<ShopCartBean> {
         }
 
         goodsBean.setGoods_number(String.valueOf(goodsNum));
-//        goodsList.add(goodsBean);
-//        bean.setGoods(goodsList);
         ShopCartBean selectBean = new ShopCartBean();
         selectBean.clearGoods(bean, select_list);
         int index = isContainsShopBean(select_list, selectBean);
         if (index != -1) {
-            ShopCartBean shopCartBean = select_list.get(index);
-//            selectBean.getGoods().addAll(shopCartBean.getGoods());
             select_list.remove(index);
         }
         select_list.add(selectBean);
-        mAdapter.notifyItemChanged(parent_position);
+        listener.onNumberChange(parent_position);
         return goodsBean;
     }
 }

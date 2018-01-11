@@ -71,7 +71,6 @@ public class ShopCartFragment extends BaseFragment implements IView<ShopCartBean
         shopCarPresenter = new ShopCarPresenter(mContext, this);
         mAdapter = new ShopCartShopAdapter(mContext, R.layout.item_shopcart_shop, shopCarPresenter);
         recyclerView.setAdapter(mAdapter);
-        shopCarPresenter.setmAdapter(mAdapter);
         mAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
@@ -145,20 +144,23 @@ public class ShopCartFragment extends BaseFragment implements IView<ShopCartBean
         SPUtils.clearData(mContext, Constants.token);
     }
 
-    public void itemChildClick(double price, boolean isChecked, List<ShopCartBean> select_list) {
+    public void itemChildClick(double price, boolean isChecked, List<ShopCartBean> select_list, int position) {
         tvMoney.setText(String.valueOf(price));
         cbAllCheck.setChecked(isChecked);
         this.select_list = select_list;
+        mAdapter.notifyItemChanged(position);
     }
 
     public void selectAll(double price, List<ShopCartBean> select_list) {
         tvMoney.setText(String.valueOf(price));
         this.select_list = select_list;
+        mAdapter.notifyDataSetChanged();
     }
 
     public void unSelectAll(double price, List<ShopCartBean> select_list) {
         tvMoney.setText(String.valueOf(price));
         this.select_list = select_list;
+        mAdapter.notifyDataSetChanged();
     }
 
     public void numberAdd(double price, List<ShopCartBean> select_list) {
@@ -169,5 +171,9 @@ public class ShopCartFragment extends BaseFragment implements IView<ShopCartBean
     public void numberReduce(double price, List<ShopCartBean> select_list) {
         tvMoney.setText(String.valueOf(price));
         this.select_list = select_list;
+    }
+
+    public void numberChange(int position) {
+        mAdapter.notifyItemChanged(position);
     }
 }

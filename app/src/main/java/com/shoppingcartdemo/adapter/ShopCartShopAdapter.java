@@ -76,5 +76,6 @@ public class ShopCartShopAdapter extends BaseQuickAdapter<ShopCartBean, BaseView
 
             }
         });
+
     }
 }

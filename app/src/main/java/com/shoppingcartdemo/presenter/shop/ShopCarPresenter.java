@@ -2,7 +2,6 @@ package com.shoppingcartdemo.presenter.shop;
 
 import android.content.Context;
 
-import com.shoppingcartdemo.adapter.ShopCartShopAdapter;
 import com.shoppingcartdemo.bean.ShopCartBean;
 import com.shoppingcartdemo.fragment.ShopCartFragment;
 import com.shoppingcartdemo.mode.IMode;
@@ -24,12 +23,6 @@ public class ShopCarPresenter implements IPresenter, ShopLoaderListener {
     public ShopCarPresenter(Context context, IView view) {
         this.view = view;
         this.mode = new ShopMode(context, this);
-    }
-
-    public void setmAdapter(ShopCartShopAdapter mAdapter) {
-        if (mode instanceof ShopMode) {
-            ((ShopMode) mode).setmAdapter(mAdapter);
-        }
     }
 
     @Override
@@ -81,9 +74,9 @@ public class ShopCarPresenter implements IPresenter, ShopLoaderListener {
     }
 
     @Override
-    public void onItemChildClick(double price, boolean isChecked, List<ShopCartBean> select_list) {
+    public void onItemChildClick(double price, boolean isChecked, List<ShopCartBean> select_list, int position) {
         if (view instanceof ShopCartFragment) {
-            ((ShopCartFragment) view).itemChildClick(price, isChecked, select_list);
+            ((ShopCartFragment) view).itemChildClick(price, isChecked, select_list, position);
         }
     }
 
@@ -112,6 +105,13 @@ public class ShopCarPresenter implements IPresenter, ShopLoaderListener {
     public void onNumberReduce(double price, List<ShopCartBean> select_list) {
         if (view instanceof ShopCartFragment) {
             ((ShopCartFragment) view).numberReduce(price, select_list);
+        }
+    }
+
+    @Override
+    public void onNumberChange(int position) {
+        if (view instanceof ShopCartFragment) {
+            ((ShopCartFragment) view).numberChange(position);
         }
     }
 

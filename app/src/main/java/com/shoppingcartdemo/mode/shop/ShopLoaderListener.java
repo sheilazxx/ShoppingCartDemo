@@ -12,7 +12,7 @@ import java.util.List;
 public interface ShopLoaderListener extends LoaderListener<ShopCartBean> {
     void loadCode3002();
 
-    void onItemChildClick(double price, boolean isChecked, List<ShopCartBean> select_list);
+    void onItemChildClick(double price, boolean isChecked, List<ShopCartBean> select_list, int postion);
 
     void onSelctAll(double price, List<ShopCartBean> select_list);
 
@@ -21,5 +21,7 @@ public interface ShopLoaderListener extends LoaderListener<ShopCartBean> {
     void onNumberAdd(double price, List<ShopCartBean> select_list);
 
     void onNumberReduce(double price, List<ShopCartBean> select_list);
+
+    void onNumberChange(int position);
 
 }
